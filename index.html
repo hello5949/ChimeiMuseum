@@ -1,0 +1,381 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>奇美博物館</title>
+<script src="jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+var bannerRotation;
+
+window.onload=function(){
+	document.onscroll=function(){			//滾輪變動時上排內容跟著移動
+		var top=document.getElementById("top");
+		var listMenu=document.getElementById("listMenu");
+		top.style.top=document.body.scrollTop+"px";
+		listMenu.style.top=document.body.scrollTop+"px";
+	}
+	
+	bannerRotation=window.setInterval(banner,3000);
+}
+
+function newsDiscolor(tag,line,mode){
+	if(line>0){
+		var arrow=document.getElementById("arrow-"+line)
+		if(mode=='1'){
+			tag.style.background="#303030";
+			arrow.src="image/arrow2.png";
+		}
+		else{
+			tag.style.background="white";
+			arrow.src="image/arrow.png";
+		}
+	}
+	else if(line==""){
+		if(mode=='1')
+			tag.src="image/more2";
+		else
+			tag.src="image/more";
+	}
+}
+
+function AdShow(img,mode){
+	var bannerAdvertising=document.getElementById("bannerAdvertising");
+	
+	if(mode==1){
+	img.style.top=-(img.height/2)+"px";
+	bannerAdvertising.style.display="block";
+	}
+	else{
+	img.style.top=0;
+	bannerAdvertising.style.display="none";
+	}
+}
+
+function bannerTrun(mode){
+	var bannerAdvertising=document.getElementById("bannerAdvertising");
+	if(mode=='0'){
+		window.clearInterval(bannerRotation);
+		bannerAdvertising.style.display="block";
+	}
+	else if(mode=='1'){
+		bannerRotation=window.setInterval(banner,3000);
+		bannerAdvertising.style.display="none";
+	}
+}
+
+var bannerTag=1;
+function clickBannerTag(tag){
+	var bannerPageLast=document.getElementById("bannerPage-"+bannerTag);
+	bannerPageLast.style.color="gray";
+	bannerTag=tag;
+	banner();
+}
+
+function banner(){
+	var banner=document.getElementById("banner");
+	if(bannerTag>0){
+	var bannerPageLast=document.getElementById("bannerPage-"+bannerTag);
+	bannerPageLast.style.color="gray";
+	}
+	
+	if(bannerTag<4)
+	bannerTag++;
+	else
+	bannerTag=1;
+	
+	var bannerPage=document.getElementById("bannerPage-"+bannerTag);
+	bannerPage.style.color="orange";
+	
+	switch(bannerTag){
+		case 1:
+			banner.src="image/img1.png";
+			break;
+		case 2:
+			banner.src="image/img2.png";
+			break;
+		case 3:
+			banner.src="image/img3.png";
+			break;
+		case 4:
+			banner.src="image/img4.png";
+			break;
+		default:
+			banner.src="image/img1.png";
+			break;
+	}
+	
+}
+
+function listEffect(tag,mode){		//滑鼠移到列表上，顏色向上擴散效果函式(已監聽height)
+	var effect=document.getElementById("effect-"+tag)
+	if(mode==1)
+	effect.style.height=80+"px";
+	else
+	effect.style.height=5+"px";
+}
+
+var checkMode='0';
+function listMenu(tag){	//點擊列表效果
+	var menuFrame=document.getElementById("listMenu");
+	var pastMenu=document.getElementById("menu-"+checkMode);
+	var menu=document.getElementById("menu-"+tag);
+	
+	if(menuFrame.style.height=="300px" || menuFrame.style.height=="130px" || menuFrame.style.height=="210px"){
+		if(checkMode==tag){
+			menuFrame.style.height='0px';
+			checkMode=tag;
+		}
+		else{
+			menuFrame.style.height='0px';
+			window.setTimeout(function(){if(tag>2){
+													if(tag=='6')menuFrame.style.height='210px';
+													else menuFrame.style.height='130px';
+										}
+										else menuFrame.style.height='300px';
+										pastMenu.style.display='none';
+										menu.style.display="block";
+										},500);
+			
+			checkMode=tag;
+		}
+	}
+	else if(menuFrame.style.height='0px'){
+		if(tag>2){
+			if(tag==6) menuFrame.style.height='210px';
+			else menuFrame.style.height='130px';
+		}
+		else menuFrame.style.height='300px';
+		if(checkMode>0)	pastMenu.style.display='none';
+		menu.style.display="block";
+		checkMode=tag;
+	}
+}
+
+function discolor(img,mode){
+	if(mode==1){
+	img.style.top=-(img.height/2)+"px";
+	}
+	else{
+	img.style.top=0;
+	}
+}
+
+</script>
+<style type="text/css">
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,p{padding:0; margin:0;}
+a {text-decoration:none;}
+#top{height:126px;background:black;position:relative;z-index:100;}
+#list{position:}
+#list ul{position:absolute;right:5px;top:5px;}
+#list ul li{color:#eec390;display:inline-block;font-size:11px;line-height:13px;border-left:1px solid #eec390;padding-left:11px;
+			padding-right:14px;}
+#search{border:1px solid #eec390;background:none;position:relative;line-height:20px;color:#bfbfbf;border-radius:10px}
+#listItem{position:absolute;top:46px;right:5px;}
+#listItem ul{list-style:none;}
+#listItem ul li{display:inline-block;text-align:center;width:120px;height:80px;margin-left:5px;margin-right:5px;color:#FAFAFA;
+				line-height: 25px;font-family: DFKai-sb;font-size: 17px;}
+#listEffect{position:absolute;right:5px;bottom:0px}
+.listEffect{height:5px;display:inline-block;text-align:center;width:120px;margin-left:8px;margin-right:6px;
+			transition:height 0.7s;}
+#listMenu{height:0px;overflow:hidden;background:white;position:relative;margin:auto;z-index:100;width:1060px;
+			transition:height 0.5s;}
+#listMenu ul{position:relative;margin:20px 20px;}
+.bigImg{height:250px;overflow:hidden;float:left}
+.smallImg{position:relative;top:0px;
+		transition:top 0.5s}
+.listMenus{height:71px;overflow:hidden;display:inline-block;margin:5px 5px;float:left;}
+#mid{position:relative;margin:25px auto;width:1060px}
+#midTop{position:relative;width:1060px;margin:auto;}
+#bannerPage{position:relative;position:absolute;bottom:10px;right:90px;}
+#bannerPage a{list-style:none;display:inline-block;font-size:25px;color:gray;}
+#bannerAdvertising{display:none}
+#bannerAdvertising a{position:absolute;overflow:hidden;height:250px;background:black;opacity:0.8;}
+.AdPosition{position:relative;}
+#Advertising{margin-top:40px;float:left;}
+#news{float:left;}
+#news ul{margin-left:50px;margin-top:40px;margin-bottom:60px;color:#444444;fint-size:12px;}
+#news ul li{list-style:none;background:white;line-height:35px;margin-bottom:10px;width:470px;position:relative;}
+#news ul li a{color:#777777;font-size:16px}
+.arrow{position:absolute;right:3px;top:8px}
+#bottom{background:#383838;height:200px;clear:both;}
+#information{margin:0px auto;width:1060px;height:200px;background:url(image/CHIMEI.jpg) no-repeat bottom left;text-align:center;}
+#information ul{position:relative;width:380px;float:left;left:150px}
+#information ul li{list-style:none;font-size:16px;color:white;line-height:30px;padding:10px;
+	text-align:left;border-bottom:1px solid #484848;}
+.mapImg{line-height:12px;padding:5px;background:#B47A48;border-radius:5px;position:absolute;right:0px}
+.icon{width:32px;height:32px;background:url(image/icon.png) no-repeat;}
+.icon_reservation{background-position:-544px;position:absolute;left:0px}
+.visit{line-height:32px;background:#B47A48;font-size:17px;position:relative;position:absolute;padding:0px 5px 0px 32px;border-radius: 5px;right:0px;}
+#information ul li span:hover{background:#8E0007;}
+.fbImg{background-position:-160px;padding:16px;}
+.ytImg{background-position:-480px;padding:32px;}
+</style>
+</head>
+<body style="background:#F3F3F3;">
+<!--上面部分-->
+<div id="top">
+	<div style="width:1200px;position:relative;margin-left:auto;margin-right:auto;">
+		<!--右上小列表-->
+		<div id="list">
+			<ul>
+				<li>會員登入</li>
+				<li>會員專區</li>
+				<li>language<img src="image\sharp.png" style="padding-left:10px"/></li>
+				<li>
+				<input id="search" type="text"><img src="image\glass.png" style="position:absolute;right:20px;top:6px"/></input>
+				</li>
+			</ul>
+		</div>
+		<!--LOGO-->
+		<img src="image\logo.gif"/>
+		<!--清單-->
+		<!--效果-->
+		<ul id="listEffect">
+				<li class="listEffect" style="background:#8c3b41" id="effect-1"/>
+				<li class="listEffect" style="background:#c3b7b8" id="effect-2"/>
+				<li class="listEffect" style="background:#564d4d" id="effect-3"/>
+				<li class="listEffect" style="background:#6392b6" id="effect-4"/>
+				<li class="listEffect" style="background:#e2bf46" id="effect-5"/>
+				<li class="listEffect" style="background:#6f874a" id="effect-6"/>
+				<li class="listEffect" style="background:#bc5799" id="effect-7"/>
+		</ul>
+		<div id="listItem">
+			
+			<!--內容-->
+			<ul>
+				<li onmouseover="listEffect('1','1')" onmouseout="listEffect('1','0')" onclick="listMenu('1')" >參觀<br/>.<br/>Visit</span></li>
+				<li onmouseover="listEffect('2','1')" onmouseout="listEffect('2','0')" onclick="listMenu('2')" >展覽<br/>.<br/>Exhibitions</li>
+				<li onmouseover="listEffect('3','1')" onmouseout="listEffect('3','0')" onclick="listMenu('3')" >典藏<br/>.<br/>Collections</li>
+				<li onmouseover="listEffect('4','1')" onmouseout="listEffect('4','0')" onclick="listMenu('4')" >訊息<br/>.<br/>Events</li>
+				<li onmouseover="listEffect('5','1')" onmouseout="listEffect('5','0')" onclick="listMenu('5')" >活動<br/>.<br/>Activities</li>
+				<li onmouseover="listEffect('6','1')" onmouseout="listEffect('6','0')" onclick="listMenu('6')" >奇美與您<br/>.<br/>Join & Support</li>
+				<li onmouseover="listEffect('7','1')" onmouseout="listEffect('7','0')" onclick="listMenu('7')" >禮品餐飲<br/>.<br/>Shop & Cafe</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="listMenu" >
+		<ul id="menu-1" style="display:none">
+			<li class="bigImg"><img src="image/rsvt.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/Info.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/communications.jpg"  class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/about.jpg"  class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/calandar.jpg"  class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/facsbook.jpg"  class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/youtube.jpg"  class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/QA.jpg"  class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/contact.jpg"  class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/map.jpg"  class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+		</ul>
+		
+		<ul id="menu-2" style="display:none">
+			<li class="bigImg"><img src="image/exhibition.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/current.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/upcoming.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/past.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+		</ul>
+		
+		<ul id="menu-3" style="display:none">
+			<li class="listMenus"><img src="image/search.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/conservation.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/classcialMusic.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+		</ul>
+		
+		<ul id="menu-4" style="display:none">
+			<li class="listMenus"><img src="image/newest.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/news.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/artsAward.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+		</ul>
+		
+		<ul id="menu-5" style="display:none">
+			<li class="listMenus"><img src="image/find.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/actives.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+		</ul>
+		
+		<ul id="menu-6" style="display:none">
+			<li class="listMenus"><img src="image/CHIMEIAward.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/volunteer.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/violinLoans.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/Mandolin.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/internship.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/photography.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/copying.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/lostFound.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/fileDownload.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+		</ul>
+		
+		<ul id="menu-7" style="display:none">
+			<li class="listMenus"><img src="image/restaurant.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/giftService.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+			<li class="listMenus"><img src="image/E-shop.jpg" class="smallImg" onmouseover="discolor(this,1)" onmouseout="discolor(this,0)"></img></li>
+		</ul>
+</div>
+<!--中間部分-->
+<div id="mid">
+	<div id="midTop">
+		<img src="image/img1.png" id="banner" onmouseover="bannerTrun('0')" onmouseout="bannerTrun('1')">
+			<ul id="bannerPage">
+				<a id="bannerPage-1" style="color:orange;" onclick="clickBannerTag(0)">●</a>
+				<a id="bannerPage-2" onclick="clickBannerTag(1)">●</a>
+				<a id="bannerPage-3" onclick="clickBannerTag(2)">●</a>
+				<a id="bannerPage-4" onclick="clickBannerTag(3)">●</a>
+			</ul>
+			
+			<ul id="bannerAdvertising">
+				<a href="#" style="top:0px;"><img src="image/reservation.png" class="AdPosition" onmouseover="AdShow(this,1)" onmouseout="AdShow(this,0)"/></a>
+				<a href="#" style="top:250px;left:250px"><img src="image/loans.png" class="AdPosition" onmouseover="AdShow(this,1)" onmouseout="AdShow(this,0)"/></a>
+				<a href="#" style="top:500px;"><img src="image/prize.png" class="AdPosition" onmouseover="AdShow(this,1)" onmouseout="AdShow(this,0)"/></a>
+			</ul>
+		</img>
+	</div>
+	<div id="Advertising">
+		<img src="image/Advertising.jpg"></img>
+	</div>
+	<div id="news">
+		<ul>NEWS 最新消息
+			<li onmouseover="newsDiscolor(this,1,1)" onmouseout="newsDiscolor(this,1,0)">
+			<a href="#">文字文字文字文字文字文字文字文字文字文字<img id="arrow-1" class="arrow" src="image/arrow.png"></a>
+			</li>
+			<li onmouseover="newsDiscolor(this,2,1)" onmouseout="newsDiscolor(this,2,0)">
+			<a href="#">文字文字文字文字文字文字文字文字文字文字<img id="arrow-2" class="arrow" src="image/arrow.png"></a>
+			</li>
+			<li onmouseover="newsDiscolor(this,3,1)" onmouseout="newsDiscolor(this,3,0)">
+			<a href="#">文字文字文字文字文字文字文字文字文字文字<img id="arrow-3" class="arrow" src="image/arrow.png"></a>
+			</li>
+			<li onmouseover="newsDiscolor(this,4,1)" onmouseout="newsDiscolor(this,4,0)">
+			<a href="#">文字文字文字文字文字文字文字文字文字文字<img id="arrow-4" class="arrow" src="image/arrow.png"></a>
+			</li>
+			<li><img src="image/more.png" style="position:absolute;right:0px;" onmouseover="newsDiscolor(this,,1)" onmouseout="newsDiscolor(this,,0)"/></li>
+		</ul>
+		
+	</div>
+</div>
+
+<!--下面部分-->
+<div id="bottom">
+	<div id="information">
+		<ul>
+			<li>
+				<strong><b style="font-size:19px;color:#B47A48">奇美博物館</b></strong><br/>71755台南市仁德區文華路二段66號<span class="mapImg">map</span>
+			</li>
+			<li>
+				開館時間<strong style="font-size:20px;padding:10px">9:30a.m.~5:30p.m.</strong><br/><b>每週一休館</b>
+				<span class="visit"><i class="icon icon_reservation"></i>預約參觀</span>
+			</li>
+		</ul>
+		<ul style="margin-left:50px;padding-left:50px;border-left:3px solid #484848">
+			<li>
+				<a class="icon fbImg"></a> <a class="icon ytImg"></a>
+				<br/><a style="padding-right:10px;border-right:1px solid #484848">著作隱私權</a><a style="padding-left:10px">網站地圖</a>
+			</li>
+			<li>
+				<a>服務專線：+886 6 2660808</a></br>
+				<a>E-mail聯絡我們</a>
+			</li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>
